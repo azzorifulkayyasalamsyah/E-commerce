@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\Api;
 
 use App\Models\Pembeli;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -39,20 +40,24 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        if (Auth::guard('pembeli')->attempt([
-            'email' => $request->email,
-            'password' => $request->password
-        ])) {
-            $pembeli = Auth::guard('pembeli')->user();
-            $data['success'] = true;
-            $data['message'] = 'Login berhasil';
-            $data['token'] = $pembeli->createToken('PembeliApp')->plainTextToken;
-            $data['data'] = $pembeli;
-            return response()->json($data, Response::HTTP_ACCEPTED);
-        } else {
-            $data['success'] = false;
-            $data['message'] = 'Email atau password salah';
-            return response()->json($data, Response::HTTP_UNAUTHORIZED);
+        $validate = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        $pembeli = Pembeli::where('email', $request->email)->first();
+
+        if (!$pembeli || !Hash::check($request->password, $pembeli->password)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Email atau password salah'
+            ], Response::HTTP_UNAUTHORIZED);
         }
+
+        $data['success'] = true;
+        $data['message'] = 'Login berhasil';
+        $data['token'] = $pembeli->createToken('PembeliApp')->plainTextToken;
+        $data['data'] = $pembeli;
+        return response()->json($data, Response::HTTP_ACCEPTED);
     }
 }

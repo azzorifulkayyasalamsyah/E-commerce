@@ -20,22 +20,28 @@ Route::post('/pembeli/login', [AuthController::class, 'login']);
 
 /*
 |--------------------------------------------------------------------------
-| Pembeli
+| Pembeli (Public & Protected)
 |--------------------------------------------------------------------------
 */
 Route::get('/pembeli', [PembeliController::class, 'index']);
 Route::get('/pembeli/{id}', [PembeliController::class, 'show']);
-Route::post('/pembeli', [PembeliController::class, 'store']);
-Route::patch('/pembeli/{id}', [PembeliController::class, 'update']);
-Route::delete('/pembeli/{id}', [PembeliController::class, 'destroy']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/pembeli', [PembeliController::class, 'store']);
+    Route::patch('/pembeli/{id}', [PembeliController::class, 'update']);
+    Route::delete('/pembeli/{id}', [PembeliController::class, 'destroy']);
+});
 
 /*
 |--------------------------------------------------------------------------
-| Produk
+| Produk (Public & Protected)
 |--------------------------------------------------------------------------
 */
 Route::get('/produk', [ProdukController::class, 'index']);
 Route::get('/produk/{id}', [ProdukController::class, 'show']);
-Route::post('/produk', [ProdukController::class, 'store']);
-Route::patch('/produk/{id}', [ProdukController::class, 'update']);
-Route::delete('/produk/{id}', [ProdukController::class, 'destroy']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/produk', [ProdukController::class, 'store']);
+    Route::patch('/produk/{id}', [ProdukController::class, 'update']);
+    Route::delete('/produk/{id}', [ProdukController::class, 'destroy']);
+});

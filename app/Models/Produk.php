@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Produk extends Model
 {
-    protected $fillable = ['nama', 'deskripsi', 'harga', 'stok', 'pembeli_id'];
+    use HasFactory;
+
+    protected $fillable = ['nama', 'kode', 'deskripsi', 'harga', 'stok', 'pembeli_id'];
 
     public function pembeli()
     {

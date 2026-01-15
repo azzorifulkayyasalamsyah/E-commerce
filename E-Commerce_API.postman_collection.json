@@ -1,0 +1,312 @@
+{
+  "info": {
+    "_postman_id": "e-commerce-api",
+    "name": "E-Commerce API",
+    "description": "Complete CRUD and Auth API for E-Commerce Application",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.environment.set('token', jsonData.token);",
+                  "    pm.environment.set('pembeli_id', jsonData.data.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nama\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\",\n  \"password_confirmation\": \"password123\",\n  \"telepon\": \"08123456789\",\n  \"alamat\": \"Jakarta, Indonesia\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/pembeli/register",
+              "host": ["{{base_url}}"],
+              "path": ["api", "pembeli", "register"]
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 202) {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.environment.set('token', jsonData.token);",
+                  "    pm.environment.set('pembeli_id', jsonData.data.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/pembeli/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "pembeli", "login"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Pembeli (Buyer)",
+      "item": [
+        {
+          "name": "Get All Pembeli",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/pembeli",
+              "host": ["{{base_url}}"],
+              "path": ["api", "pembeli"]
+            }
+          }
+        },
+        {
+          "name": "Get Pembeli by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/pembeli/{{pembeli_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "pembeli", "{{pembeli_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Create Pembeli",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nama\": \"Jane Doe\",\n  \"email\": \"jane@example.com\",\n  \"telepon\": \"08198765432\",\n  \"alamat\": \"Bandung, Indonesia\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/pembeli",
+              "host": ["{{base_url}}"],
+              "path": ["api", "pembeli"]
+            }
+          }
+        },
+        {
+          "name": "Update Pembeli",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nama\": \"John Updated\",\n  \"telepon\": \"08567890123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/pembeli/{{pembeli_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "pembeli", "{{pembeli_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete Pembeli",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/pembeli/{{pembeli_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "pembeli", "{{pembeli_id}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Produk (Product)",
+      "item": [
+        {
+          "name": "Get All Produk",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/produk",
+              "host": ["{{base_url}}"],
+              "path": ["api", "produk"]
+            }
+          }
+        },
+        {
+          "name": "Get Produk by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/produk/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "produk", "1"]
+            }
+          }
+        },
+        {
+          "name": "Create Produk",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.environment.set('produk_id', jsonData.data.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nama\": \"Laptop\",\n  \"kode\": \"LAP001\",\n  \"deskripsi\": \"High-performance laptop\",\n  \"harga\": 15000000,\n  \"stok\": 10,\n  \"pembeli_id\": \"{{pembeli_id}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/produk",
+              "host": ["{{base_url}}"],
+              "path": ["api", "produk"]
+            }
+          }
+        },
+        {
+          "name": "Update Produk",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nama\": \"Laptop Gaming\",\n  \"stok\": 5\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/produk/{{produk_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "produk", "{{produk_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete Produk",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/produk/{{produk_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "produk", "{{produk_id}}"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "pembeli_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "produk_id",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

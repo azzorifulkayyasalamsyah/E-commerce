@@ -40,6 +40,16 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'pembeli' => [
+            'driver' => 'session',
+            'provider' => 'pembelis',
+        ],
+
+        'sanctum' => [
+            'driver' => 'sanctum',
+            'provider' => 'pembelis',
+        ],
     ],
 
     /*
@@ -63,6 +73,11 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
+        ],
+
+        'pembelis' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Pembeli::class,
         ],
 
         // 'users' => [

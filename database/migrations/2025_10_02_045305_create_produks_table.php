@@ -10,8 +10,11 @@ return new class extends Migration {
             $table->id();
             $table->string('nama');
             $table->string('kode')->unique();
+            $table->text('deskripsi')->nullable();
             $table->decimal('harga', 12, 2);
             $table->integer('stok');
+            $table->unsignedBigInteger('pembeli_id')->nullable();
+            $table->foreign('pembeli_id')->references('id')->on('pembelis')->onDelete('cascade');
             $table->timestamps();
         });
     }
